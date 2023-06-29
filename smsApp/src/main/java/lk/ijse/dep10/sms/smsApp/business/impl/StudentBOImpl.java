@@ -4,10 +4,14 @@ import lk.ijse.dep10.sms.smsApp.business.StudentBO;
 import lk.ijse.dep10.sms.smsApp.business.util.Transformer;
 import lk.ijse.dep10.sms.smsApp.dao.StudentDAO;
 import lk.ijse.dep10.sms.smsApp.dto.StudentDTO;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Service
+@Transactional
 public class StudentBOImpl implements StudentBO {
     private final StudentDAO studentDAO;
     private final Transformer transformer;

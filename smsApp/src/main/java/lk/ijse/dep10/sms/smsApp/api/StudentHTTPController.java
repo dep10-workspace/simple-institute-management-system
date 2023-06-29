@@ -1,25 +1,37 @@
 package lk.ijse.dep10.sms.smsApp.api;
 
+import lk.ijse.dep10.sms.smsApp.business.StudentBO;
+import lk.ijse.dep10.sms.smsApp.dto.StudentDTO;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @CrossOrigin
 @RequestMapping("/api/v1/students")
 public class StudentHTTPController {
+    private final StudentBO studentBO;
+
+    public StudentHTTPController(StudentBO studentBO) {
+        this.studentBO = studentBO;
+    }
+
     @GetMapping
-    public String getAllStudents() {
+    public List<StudentDTO> getAllStudents() throws Exception {
         System.out.println("GetAll");
-        return "<h1>GetAll</h1>";
+        return studentBO.getAllStudents();
     }
     @PostMapping(consumes = "application/json")
-    public String saveStudent() {
+    public StudentDTO saveStudent(@RequestBody StudentDTO studentDTO) throws Exception {
         System.out.println("Save");
-        return "<h1>Save</h1>";
+        return studentBO.saveStudent(studentDTO);
     }
     @DeleteMapping("/{id}")
-    public String deleteStudent() {
+    @ResponseStatus(HttpStatus.OK)
+    public void deleteStudent(@PathVariable("id") int id) throws Exception {
         System.out.println("Delete");
-        return "<h1>Delete</h1>";
+        studentBO.deleteStudentByStudentId(id);
     }
 
 }
