@@ -1,6 +1,6 @@
 import mysql, {Pool} from "promise-mysql";
 import env from 'dotenv'
-console.log("DBCONNECTION")
+
 
 env.config();
 

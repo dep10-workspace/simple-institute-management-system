@@ -1,7 +1,7 @@
 import express, {json} from 'express'
 import { router as courseRouter} from './api/courseHttpController'
 import cors from 'cors'
-console.log("MAIN")
+
 
 
 const app =express();
