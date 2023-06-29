@@ -4,6 +4,7 @@ import lk.ijse.dep10.sms.smsApp.business.StudentBO;
 import lk.ijse.dep10.sms.smsApp.business.util.Transformer;
 import lk.ijse.dep10.sms.smsApp.dao.StudentDAO;
 import lk.ijse.dep10.sms.smsApp.dto.StudentDTO;
+import lk.ijse.dep10.sms.smsApp.entity.Student;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -23,8 +24,8 @@ public class StudentBOImpl implements StudentBO {
 
     @Override
     public StudentDTO saveStudent(StudentDTO studentDTO) throws Exception {
-        studentDAO.save(transformer.toStudentEntity(studentDTO));
-        return studentDTO;
+        Student studentEntity = studentDAO.save(transformer.toStudentEntity(studentDTO));
+        return transformer.fromStudentEntity(studentEntity);
     }
 
     @Override

@@ -5,6 +5,7 @@ import lk.ijse.dep10.sms.smsApp.dto.StudentDTO;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -23,13 +24,13 @@ public class StudentHTTPController {
         return studentBO.getAllStudents();
     }
     @PostMapping(consumes = "application/json")
-    public StudentDTO saveStudent(@RequestBody StudentDTO studentDTO) throws Exception {
+    public StudentDTO saveStudent(@RequestBody @Valid StudentDTO studentDTO) throws Exception {
         System.out.println("Save");
         return studentBO.saveStudent(studentDTO);
     }
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public void deleteStudent(@PathVariable("id") int id) throws Exception {
+    public void deleteStudent(@PathVariable("id") @Valid int id) throws Exception {
         System.out.println("Delete");
         studentBO.deleteStudentByStudentId(id);
     }
