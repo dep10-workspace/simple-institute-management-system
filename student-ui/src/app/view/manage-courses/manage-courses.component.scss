@@ -1,0 +1,20 @@
+svg{
+  //visibility: hidden;
+}
+.editIcon:hover{
+  color: dodgerblue;
+  cursor: pointer;
+  visibility: visible;
+}
+.deleteIcon:hover{
+  color: red;
+  cursor: pointer;
+  visibility: visible;
+}
+h1{
+  color: dodgerblue;
+}
+button{
+  width: 150px;
+  border-radius: 10px;
+}
