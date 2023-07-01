@@ -6,6 +6,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
 import javax.validation.Valid;
 import java.time.LocalDateTime;
@@ -20,24 +21,31 @@ public class StudentHTTPController {
     public StudentHTTPController(StudentBO studentBO) {
         this.studentBO = studentBO;
     }
-    @ExceptionHandler(MethodArgumentNotValidException.class)
+    @ExceptionHandler({MethodArgumentNotValidException.class, MethodArgumentTypeMismatchException.class})
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public HashMap<String, Object> validExceptionHandler(MethodArgumentNotValidException exp) {
+    public HashMap<String, Object> validExceptionHandler(Exception exp) {
         LinkedHashMap<String, Object> errorAttributes = new LinkedHashMap<>();
         errorAttributes.put("timestamp", LocalDateTime.now());
         errorAttributes.put("status", 400);
         errorAttributes.put("error", HttpStatus.BAD_REQUEST);
+        if (exp.getClass() ==  MethodArgumentNotValidException.class) {
+            errorAttributes.put("message", "Data Validation Failed");
+            MethodArgumentNotValidException exception= (MethodArgumentNotValidException) exp;
+            List<FieldError> fieldErrors = exception.getFieldErrors();
+            ArrayList<HashMap<String,Object>> errorList = new ArrayList<>();
+            fieldErrors.forEach(fieldError -> {
+                LinkedHashMap<String, Object> error = new LinkedHashMap<>();
+                error.put("field", fieldError.getField());
+                error.put("rejected value", fieldError.getRejectedValue());
+                error.put("field", fieldError.getDefaultMessage());
+                errorList.add(error);
+            });
+            errorAttributes.put("errors", errorList);
+        } else if (exp.getClass() == MethodArgumentTypeMismatchException.class) {
+            errorAttributes.put("message", "Type Mismath Exception");
+        }
 
-        List<FieldError> fieldErrors = exp.getFieldErrors();
-        ArrayList<HashMap<String,Object>> errorList = new ArrayList<>();
-        fieldErrors.forEach(fieldError -> {
-            LinkedHashMap<String, Object> error = new LinkedHashMap<>();
-            error.put("field", fieldError.getField());
-            error.put("rejected value", fieldError.getRejectedValue());
-            error.put("field", fieldError.getDefaultMessage());
-            errorList.add(error);
-        });
-        errorAttributes.put("errors", errorList);
+
         return errorAttributes;
     }
 
