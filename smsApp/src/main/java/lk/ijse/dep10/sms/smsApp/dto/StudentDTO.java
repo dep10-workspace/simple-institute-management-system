@@ -20,7 +20,7 @@ public class StudentDTO {
     @Pattern(regexp = "[A-Z a-z]{3,}")
     private String name;
     @NotBlank(message = "Student address cant be Empty")
-    @Pattern(regexp = ".{3,}")
+    @Pattern(regexp = "[A-Z a-z]{3,}.*")
     private String address;
 
     public StudentDTO(String name, String address) {
