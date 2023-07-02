@@ -1,6 +1,8 @@
 package lk.ijse.dep10.sms.smsApp.business.impl;
 
 import lk.ijse.dep10.sms.smsApp.business.StudentBO;
+import lk.ijse.dep10.sms.smsApp.business.util.BusinessException;
+import lk.ijse.dep10.sms.smsApp.business.util.BusinessExceptionType;
 import lk.ijse.dep10.sms.smsApp.business.util.Transformer;
 import lk.ijse.dep10.sms.smsApp.dao.StudentDAO;
 import lk.ijse.dep10.sms.smsApp.dto.StudentDTO;
@@ -35,6 +37,11 @@ public class StudentBOImpl implements StudentBO {
 
     @Override
     public void deleteStudentByStudentId(int studentId) throws Exception {
+        if (!studentDAO.existsById(studentId)) {
+            throw new BusinessException(
+                    BusinessExceptionType.RECORD_NOT_FOUND,
+                    "Student Id: " + studentId + " is not exist");
+        }
         studentDAO.deleteById(studentId);
     }
 }

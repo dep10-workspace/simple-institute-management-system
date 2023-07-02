@@ -59,6 +59,7 @@ public class StudentDAOImpl implements StudentDAO{
 
     @Override
     public boolean existsById(Integer pk) throws Exception {
+        if (findById(pk)!=null) return true;
         return false;
     }
 }
