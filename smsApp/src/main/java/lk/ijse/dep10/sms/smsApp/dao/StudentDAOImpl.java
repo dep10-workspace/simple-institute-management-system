@@ -2,6 +2,7 @@ package lk.ijse.dep10.sms.smsApp.dao;
 
 import static lk.ijse.dep10.sms.smsApp.dao.util.Mapper.STUDENT_ROW_MAPPER;
 import lk.ijse.dep10.sms.smsApp.entity.Student;
+import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
@@ -48,8 +49,12 @@ public class StudentDAOImpl implements StudentDAO{
     }
 
     @Override
-    public Optional<Student> findById(Integer pk) throws Exception {
-        return Optional.ofNullable(jdbcTemplate.queryForObject("SELECT *FROM student WHERE id=?",STUDENT_ROW_MAPPER, pk));
+    public Optional<Student> findById(Integer id) throws Exception {
+        try {
+            return Optional.ofNullable(jdbcTemplate.queryForObject("SELECT * FROM student WHERE id=?", STUDENT_ROW_MAPPER, id));
+        } catch (DataAccessException e) {
+            return Optional.empty();
+        }
     }
 
     @Override
@@ -59,7 +64,6 @@ public class StudentDAOImpl implements StudentDAO{
 
     @Override
     public boolean existsById(Integer pk) throws Exception {
-        if (findById(pk)!=null) return true;
-        return false;
+        return findById(pk).isPresent();
     }
 }

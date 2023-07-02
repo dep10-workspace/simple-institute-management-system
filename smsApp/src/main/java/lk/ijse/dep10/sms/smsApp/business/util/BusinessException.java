@@ -4,6 +4,10 @@ public class BusinessException extends RuntimeException {
     private BusinessExceptionType type;
     private String message;
 
+    public BusinessExceptionType getType() {
+        return type;
+    }
+
     public BusinessException(BusinessExceptionType type) {
         this(type, type.getMessage());
     }
