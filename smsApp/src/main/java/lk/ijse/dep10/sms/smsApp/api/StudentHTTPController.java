@@ -41,7 +41,6 @@ public class StudentHTTPController {
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteStudent(@PathVariable("id") @Valid int id) throws Exception {
-
         System.out.println("Delete");
         studentBO.deleteStudentByStudentId(id);
     }
