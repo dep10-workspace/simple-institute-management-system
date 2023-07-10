@@ -126,7 +126,7 @@ npm start
 
 6. Access the application:
 
-- Open your web browser and visit `http://localhost:port` to access the Institute Management System.
+- Open your web browser and visit `http://localhost:4200` to access the Institute Management System.
 
 ## Contributing
 
